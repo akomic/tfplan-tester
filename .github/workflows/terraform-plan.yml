@@ -34,11 +34,13 @@ jobs:
     - name: Terraform Plan Staging
       run: |
         cd staging
+        terraform init
         terraform plan -out=tfplan.tfplan
 
     - name: Terraform Plan Production
       run: |
         cd production
+        terraform init
         terraform plan -out=tfplan.tfplan
       
     - name: Upload Terraform Plan
