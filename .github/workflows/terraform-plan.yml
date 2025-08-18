@@ -31,12 +31,21 @@ jobs:
     - name: Terraform Validate
       run: terraform validate
       
-    - name: Terraform Plan
-      run: terraform plan -out=tfplan.tfplan
+    - name: Terraform Plan Staging
+      run: |
+        cd staging
+        terraform plan -out=tfplan.tfplan
+
+    - name: Terraform Plan Production
+      run: |
+        cd production
+        terraform plan -out=tfplan.tfplan
       
     - name: Upload Terraform Plan
       uses: actions/upload-artifact@v4
       with:
         name: terraform-plan-pr-${{ github.event.number }}
-        path: tfplan.tfplan
-        retention-days: 30
+        path: |
+          staging/tfplan.tfplan
+          production/tfplan.tfplan
+        retention-days: 1
